@@ -36,5 +36,8 @@ msbuild.wrn
 # Visual Studio 2015
 .vs/
 
+# SQLite Database
+*.db
+
 # production app settings
 appsettings.json
