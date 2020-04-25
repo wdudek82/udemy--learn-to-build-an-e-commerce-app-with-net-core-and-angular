@@ -10,9 +10,9 @@ namespace API.Controllers
     [Route("api/products")]
     public class ProductsController : ControllerBase
     {
-        private readonly IProductRepository _repo;
+        private readonly IGenericRepository<Product> _repo;
 
-        public ProductsController(IProductRepository repo)
+        public ProductsController(IGenericRepository<Product> repo)
         {
             _repo = repo;
         }
@@ -20,7 +20,7 @@ namespace API.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Product>>> GetProducts()
         {
-            var products = await _repo.GetProductsAsync();
+            var products = await _repo.ListAllAsync();
             return Ok(products);
         }
 
@@ -28,7 +28,7 @@ namespace API.Controllers
 
         public async Task<ActionResult<Product>> GetProduct(int id)
         {
-            return await _repo.GetProductByIdAsync(id);
+            return await _repo.GetByIdAsync(id);
         }
     }
 }
