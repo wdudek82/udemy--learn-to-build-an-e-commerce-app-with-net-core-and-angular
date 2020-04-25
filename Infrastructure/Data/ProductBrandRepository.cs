@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Data
 {
-    public class ProductBrandRepository : IProductBrandRepository
+    public class ProductBrandRepository : IGenericRepository<ProductBrand>
     {
         private readonly StoreContext _context;
 
@@ -16,12 +16,12 @@ namespace Infrastructure.Data
             _context = context;
         }
 
-        public async Task<ProductBrand> GetProductBrandByIdAsync(int id)
+        public async Task<ProductBrand> GetByIdAsync(int id)
         {
             return await _context.ProductBrands.FindAsync(id);
         }
 
-        public async Task<IReadOnlyList<ProductBrand>> GetProductBrandsAsync()
+        public async Task<IReadOnlyList<ProductBrand>> ListAllAsync()
         {
             return await _context.ProductBrands.ToListAsync();
         }

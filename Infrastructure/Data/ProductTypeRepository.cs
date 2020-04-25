@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Data
 {
-    public class ProductTypeRepository : IProductTypeRepository
+    public class ProductTypeRepository : IGenericRepository<ProductType>
     {
         private readonly StoreContext _context;
 
@@ -15,12 +15,12 @@ namespace Infrastructure.Data
             _context = context;
         }
 
-        public async Task<ProductType> GetProductTypeByIdAsync(int id)
+        public async Task<ProductType> GetByIdAsync(int id)
         {
             return await _context.ProductTypes.FindAsync(id);
         }
 
-        public async Task<IReadOnlyList<ProductType>> GetProductTypesAsync()
+        public async Task<IReadOnlyList<ProductType>> ListAllAsync()
         {
             return await _context.ProductTypes.ToListAsync();
         }

@@ -1,3 +1,4 @@
+using Core.Entities;
 using Core.Interfaces;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Builder;
@@ -25,8 +26,8 @@ namespace API
             services.AddDbContext<StoreContext>(
                 x => x.UseSqlite(_config.GetConnectionString("DefaultConnection")));
             services.AddScoped<IProductRepository, ProductRepository>();
-            services.AddScoped<IProductTypeRepository, ProductTypeRepository>();
-            services.AddScoped<IProductBrandRepository, ProductBrandRepository>();
+            services.AddScoped<IGenericRepository<ProductType>, ProductTypeRepository>();
+            services.AddScoped<IGenericRepository<ProductBrand>, ProductBrandRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
