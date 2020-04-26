@@ -38,6 +38,8 @@ msbuild.wrn
 
 # SQLite Database
 *.db
+*.db-shm
+*.db-wal
 
 # production app settings
 appsettings.json
