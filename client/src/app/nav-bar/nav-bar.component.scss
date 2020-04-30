@@ -1,0 +1,14 @@
+.cart-no {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 25px;
+  min-width: 25px;
+  top: -12px;
+  right: 32px;
+  border-radius: 50%;
+  background-color: blue;
+  color: #fff;
+  font-size: 1em;
+}
