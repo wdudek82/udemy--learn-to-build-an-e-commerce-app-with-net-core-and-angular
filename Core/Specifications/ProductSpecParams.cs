@@ -17,11 +17,11 @@ namespace Core.Specifications
         public int? TypeId { get; set; }
         public string Sort { get; set; }
 
-        public string _search;
+        private string _search;
 
         public string Search
         {
-            get => Search;
+            get => _search;
             set => _search = value.ToLower();
         }
     }
