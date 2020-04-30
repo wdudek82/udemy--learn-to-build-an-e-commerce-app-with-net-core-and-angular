@@ -1,7 +1,3 @@
-using System;
-using System.Linq.Expressions;
-using System.Runtime.InteropServices;
-using System.Xml.Serialization;
 using Core.Entities;
 
 namespace Core.Specifications
@@ -9,6 +5,7 @@ namespace Core.Specifications
     public class ProductsWithTypesAndBrandsSpecification : BaseSpecification<Product>
     {
         public ProductsWithTypesAndBrandsSpecification(ProductSpecParams productParams) : base(x =>
+            (!string.IsNullOrEmpty(productParams.Search) || x.Name.ToLower().Contains(productParams.Search)) &&
             (!productParams.BrandId.HasValue || x.ProductBrandId == productParams.BrandId) &&
             (!productParams.TypeId.HasValue || x.ProductTypeId == productParams.TypeId)
         )
