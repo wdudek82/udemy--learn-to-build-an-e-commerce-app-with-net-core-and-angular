@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { IPagination } from '../shared/models/pagination';
-import { pluck } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { IProduct } from '../shared/models/product';
 
 @Injectable({
   providedIn: 'root',
@@ -13,13 +11,15 @@ export class ShopService {
 
   constructor(private http: HttpClient) {}
 
-  getProducts(): Observable<IProduct[]> {
-    return this.http
-      .get<IPagination>(`${this.baseUrl}/products`, {
-        params: {
-          pageSize: '50',
-        },
-      })
-      .pipe(pluck('data'));
+  getProducts(
+    pageSize: number = 50,
+    pageIndex: number = 1,
+  ): Observable<IPagination> {
+    return this.http.get<IPagination>(`${this.baseUrl}/products`, {
+      params: {
+        pageSize: '' + pageSize,
+        pageIndex: '' + pageIndex,
+      },
+    });
   }
 }
