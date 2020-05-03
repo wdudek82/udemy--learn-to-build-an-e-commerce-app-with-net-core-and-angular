@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
 import { IPagination } from '../shared/models/pagination';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { IProductBrand } from '../shared/models/product-brand';
+import { IProductType } from '../shared/models/product-type';
+import { tap } from 'rxjs/operators';
+import { ShopParams } from '../shared/models/shop-params';
 
 @Injectable({
   providedIn: 'root',
@@ -11,15 +15,43 @@ export class ShopService {
 
   constructor(private http: HttpClient) {}
 
-  getProducts(
-    pageSize: number = 50,
-    pageIndex: number = 1,
-  ): Observable<IPagination> {
-    return this.http.get<IPagination>(`${this.baseUrl}/products`, {
-      params: {
-        pageSize: '' + pageSize,
-        pageIndex: '' + pageIndex,
-      },
-    });
+  getProducts(shopParams: ShopParams): Observable<IPagination> {
+    const {
+      brandId,
+      typeId,
+      sort,
+      searchBy,
+      pageNumber,
+      pageSize,
+    } = shopParams;
+    let params = new HttpParams();
+
+    if (brandId) {
+      params = params.set('brandId', brandId.toString());
+    }
+    if (typeId) {
+      params = params.set('typeId', typeId.toString());
+    }
+    if (searchBy) {
+      params = params.set('search', searchBy);
+    }
+
+    params = params.set('sort', sort);
+    params = params.set('pageIndex', pageNumber.toString());
+    params = params.set('pageSize', pageSize.toString());
+
+    return this.http
+      .get<IPagination>(this.baseUrl + '/products', {
+        params,
+      })
+      .pipe(tap((data) => console.log(data)));
+  }
+
+  getProductBrands() {
+    return this.http.get<IProductBrand[]>(this.baseUrl + '/products/brands');
+  }
+
+  getProductTypes() {
+    return this.http.get<IProductType[]>(this.baseUrl + '/products/types');
   }
 }

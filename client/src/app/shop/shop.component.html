@@ -2,26 +2,37 @@
   <div class="row">
     <section class="col-3">
       <h5 class="text-warning ml-3">Sort</h5>
-      <select class="custom-select mb-3">
-        <option value="Alphabetical" selected>Alphabetical</option>
-        <option value="price-lo-to-high">Price: Low to High</option>
-        <option value="price-high-to-lo">Price: High to Low</option>
+      <select class="custom-select mb-3" (change)="onSortSelected($event)">
+        <option
+          *ngFor="let option of sortOptions"
+          [value]="option.value"
+          [selected]="shopParams.sort === option.value"
+          >{{ option.name }}</option
+        >
       </select>
 
       <h5 class="text-warning ml-3">Brands</h5>
       <ul class="list-group my-3">
-        <li class="list-group-item active">A</li>
-        <li class="list-group-item">B</li>
-        <li class="list-group-item">C</li>
-        <li class="list-group-item">D</li>
+        <li
+          *ngFor="let productBrand of productBrands"
+          (click)="onBrandSelected(productBrand.id)"
+          class="list-group-item"
+          [class.active]="productBrand.id === shopParams.brandId"
+        >
+          {{ productBrand.name }}
+        </li>
       </ul>
 
       <h5 class="text-warning ml-3">Types</h5>
       <ul class="list-group my-3">
-        <li class="list-group-item active">A</li>
-        <li class="list-group-item">B</li>
-        <li class="list-group-item">C</li>
-        <li class="list-group-item">D</li>
+        <li
+          *ngFor="let productType of productTypes"
+          (click)="onTypeSelected(productType.id)"
+          class="list-group-item"
+          [class.active]="productType.id === shopParams.typeId"
+        >
+          {{ productType.name }}
+        </li>
       </ul>
     </section>
 
@@ -30,25 +41,46 @@
         <header>
           <span
             >Showing <strong>{{ products?.length }}</strong> of
-            <strong>{{ count }}</strong> results</span
+            <strong>{{ totalCount }}</strong> results</span
           >
         </header>
+
         <div class="form-inline mt-2">
           <input
             class="form-control mr-2"
             style="width: 300px;"
             type="text"
             placeholder="Search"
+            [(ngModel)]="shopParams.searchBy"
+            (ngModelChange)="onSearchBy()"
           />
-          <button class="btn btn-outline-primary my-2">Search</button>
-          <button class="btn btn-outline-success my-2 ml-2">Reset</button>
+          <!--          <button class="btn btn-outline-primary my-2" (click)="onSearchBy()">Search</button>-->
+          <button
+            class="btn btn-outline-success my-2 ml-2"
+            (click)="onResetSearchBy()"
+          >
+            Reset
+          </button>
         </div>
       </div>
 
       <div class="row">
-        <div *ngFor="let product of products" class="col-md-4">
+        <div *ngFor="let product of products" class="col-md-4 mb-4">
           <app-product-item [product]="product"></app-product-item>
         </div>
+      </div>
+
+      <div class="d-flex justify-content-center">
+        <pagination
+          [boundaryLinks]="true"
+          [totalItems]="totalCount"
+          [itemsPerPage]="shopParams.pageSize"
+          (pageChanged)="onPageChanged($event)"
+          previousText="&lsaquo;"
+          nextText="&rsaquo;"
+          firstText="&laquo;"
+          lastText="&raquo;"
+        ></pagination>
       </div>
     </section>
   </div>
