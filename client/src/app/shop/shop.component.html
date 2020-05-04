@@ -51,12 +51,12 @@
             type="text"
             placeholder="Search"
             [(ngModel)]="shopParams.searchBy"
-            (ngModelChange)="onSearchBy()"
+            (ngModelChange)="onSearch()"
           />
           <!--          <button class="btn btn-outline-primary my-2" (click)="onSearchBy()">Search</button>-->
           <button
             class="btn btn-outline-success my-2 ml-2"
-            (click)="onResetSearchBy()"
+            (click)="onReset()"
           >
             Reset
           </button>

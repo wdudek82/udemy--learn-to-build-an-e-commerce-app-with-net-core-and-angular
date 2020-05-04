@@ -35,21 +35,17 @@ export class ShopComponent implements OnInit {
   }
 
   getProducts() {
-    this.shopService
-      .getProducts(
-        this.shopParams,
-      )
-      .subscribe(
-        (res: IPagination) => {
-          this.products = res.data;
-          this.shopParams.pageNumber = res.pageIndex;
-          this.shopParams.pageSize = res.pageSize;
-          this.totalCount = res.count;
-        },
-        (error) => {
-          console.log(error);
-        },
-      );
+    this.shopService.getProducts(this.shopParams).subscribe(
+      (res: IPagination) => {
+        this.products = res.data;
+        this.shopParams.pageNumber = res.pageIndex;
+        this.shopParams.pageSize = res.pageSize;
+        this.totalCount = res.count;
+      },
+      (error) => {
+        console.log(error);
+      },
+    );
   }
 
   getProductBrands() {
@@ -66,11 +62,13 @@ export class ShopComponent implements OnInit {
 
   onBrandSelected(brandId: number) {
     this.shopParams.brandId = brandId;
+    this.shopParams.pageNumber = 1;
     this.getProducts();
   }
 
   onTypeSelected(typeId: number) {
     this.shopParams.typeId = typeId;
+    this.shopParams.pageNumber = 1;
     this.getProducts();
   }
 
@@ -79,19 +77,22 @@ export class ShopComponent implements OnInit {
     this.getProducts();
   }
 
-  onSearchBy(): void {
-    console.log(this.shopParams.searchBy);
+  onSearch(): void {
     this.getProducts();
   }
 
-  onResetSearchBy(): void {
-    this.shopParams.searchBy = '';
+  onReset(): void {
+    this.shopParams = new ShopParams();
     this.getProducts();
   }
 
-  onPageChanged(pagination: PageChangedEvent) {
-    this.shopParams.pageNumber = pagination.page;
-    this.shopParams.pageSize = pagination.itemsPerPage;
+  onPageChanged({ page, itemsPerPage }: PageChangedEvent) {
+    if (this.shopParams.pageNumber === page) {
+      return;
+    }
+
+    this.shopParams.pageNumber = page;
+    this.shopParams.pageSize = itemsPerPage;
     this.getProducts();
   }
 }
