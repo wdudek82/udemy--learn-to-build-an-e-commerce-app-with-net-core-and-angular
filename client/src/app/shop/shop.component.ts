@@ -4,7 +4,6 @@ import { ShopService } from './shop.service';
 import { IPagination } from '../shared/models/pagination';
 import { IProductBrand } from '../shared/models/product-brand';
 import { IProductType } from '../shared/models/product-type';
-import { ISortKey } from '../shared/models/sort-key';
 import { PageChangedEvent } from 'ngx-bootstrap/pagination';
 import { ShopParams } from '../shared/models/shop-params';
 
@@ -26,8 +25,6 @@ export class ShopComponent implements OnInit {
     { value: 'priceAsc', name: 'Price: Low to High' },
     { value: 'priceDesc', name: 'Price: High to Low' },
   ];
-
-
 
   constructor(private shopService: ShopService) {}
 
@@ -96,6 +93,5 @@ export class ShopComponent implements OnInit {
     this.shopParams.pageNumber = pagination.page;
     this.shopParams.pageSize = pagination.itemsPerPage;
     this.getProducts();
-
   }
 }
