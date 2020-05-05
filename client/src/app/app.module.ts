@@ -9,6 +9,7 @@ import { ShopModule } from './shop/shop.module';
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
 import { RouterModule } from '@angular/router';
+import { ProductResolverService } from './shop/product-resolver.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -22,7 +23,7 @@ import { RouterModule } from '@angular/router';
     SharedModule,
     ShopModule,
   ],
-  providers: [],
+  providers: [ProductResolverService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

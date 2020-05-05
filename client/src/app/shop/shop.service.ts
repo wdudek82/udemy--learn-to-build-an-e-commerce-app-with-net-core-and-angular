@@ -6,6 +6,7 @@ import { IProductBrand } from '../shared/models/product-brand';
 import { IProductType } from '../shared/models/product-type';
 import { tap } from 'rxjs/operators';
 import { ShopParams } from '../shared/models/shop-params';
+import { IProduct } from '../shared/models/product';
 
 @Injectable({
   providedIn: 'root',
@@ -45,6 +46,10 @@ export class ShopService {
         params,
       })
       .pipe(tap((data) => console.log(data)));
+  }
+
+  getProduct(id: number): Observable<IProduct> {
+    return this.http.get<IProduct>(this.baseUrl + '/products/' + id);
   }
 
   getProductBrands() {

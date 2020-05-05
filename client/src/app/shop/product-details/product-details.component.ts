@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SubSink } from 'subsink';
+import { IProduct } from '../../shared/models/product';
 
 @Component({
   selector: 'app-product-details',
@@ -9,14 +10,13 @@ import { SubSink } from 'subsink';
 })
 export class ProductDetailsComponent implements OnInit, OnDestroy {
   private subs = new SubSink();
-  productId: number;
+  product: IProduct;
 
   constructor(private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    this.subs.sink = this.route.params.subscribe((params) => {
-      console.log('=== params:', params);
-      this.productId = params.id;
+    this.route.data.subscribe((data) => {
+      this.product = data.product;
     });
   }
 

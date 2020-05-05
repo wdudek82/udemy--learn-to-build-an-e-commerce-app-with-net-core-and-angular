@@ -8,23 +8,10 @@ import { Subscription } from 'rxjs';
   templateUrl: './product-item.component.html',
   styleUrls: ['./product-item.component.scss'],
 })
-export class ProductItemComponent implements OnInit, OnDestroy {
+export class ProductItemComponent implements OnInit {
   @Input() product: IProduct;
-  private $routeSub: Subscription;
 
-  constructor(private router: Router, private route: ActivatedRoute) {}
+  constructor() {}
 
-  ngOnInit(): void {
-    this.$routeSub = this.route.params.subscribe((params) => {
-      console.log('=== params:', params);
-    });
-  }
-
-  ngOnDestroy(): void {
-    this.$routeSub.unsubscribe();
-  }
-
-  goToProductDetails(id: number) {
-    this.router.navigateByUrl('/shop/' + id);
-  }
+  ngOnInit(): void {}
 }

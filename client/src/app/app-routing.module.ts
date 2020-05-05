@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { ShopComponent } from './shop/shop.component';
 import { ProductDetailsComponent } from './shop/product-details/product-details.component';
+import { ProductResolverService } from './shop/product-resolver.service';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -10,7 +11,11 @@ const routes: Routes = [
     path: 'shop',
     children: [
       { path: '', component: ShopComponent },
-      { path: ':id', component: ProductDetailsComponent },
+      {
+        path: ':id',
+        component: ProductDetailsComponent,
+        resolve: { product: ProductResolverService },
+      },
     ],
   },
   { path: '**', pathMatch: 'full', redirectTo: '' },

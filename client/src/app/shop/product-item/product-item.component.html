@@ -8,7 +8,7 @@
     data-holder-rendered="true"
   />
   <div class="card-body d-flex flex-column">
-    <a href="#">
+    <a routerLink="/shop/{{product.id}}">
       <h6 class="text-uppercase">{{ product.name }}</h6>
     </a>
     <span class="mb-2">{{ product.price | currency }}</span>
@@ -18,7 +18,7 @@
         type="button"
         class="btn btn-outline-secondary fa fa-shopping-cart"
       ></button>
-      <button type="button" class="btn btn-outline-secondary" (click)="goToProductDetails(product.id)">
+      <button type="button" class="btn btn-outline-secondary" routerLink="/shop/{{product.id}}">
         View
       </button>
     </div>
