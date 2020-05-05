@@ -11,6 +11,7 @@ import { IProduct } from '../../shared/models/product';
 export class ProductDetailsComponent implements OnInit, OnDestroy {
   private subs = new SubSink();
   product: IProduct;
+  quantity = 0;
 
   constructor(private route: ActivatedRoute) {}
 
@@ -22,5 +23,15 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subs.unsubscribe();
+  }
+
+  decrement() {
+    if (this.quantity > 0) {
+      this.quantity -= 1;
+    }
+  }
+
+  increment() {
+    this.quantity++;
   }
 }
