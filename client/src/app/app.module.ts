@@ -6,10 +6,12 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { CoreModule } from './core/core.module';
-import { SharedModule } from './shared/shared.module';
 import { RouterModule } from '@angular/router';
 import { ProductResolverService } from './shop/product-resolver.service';
 import { ErrorInterceptor } from './core/interceptors/error.interceptor';
+import { HomeModule } from './home/home.module';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { LoadingInterceptor } from './core/interceptors/loading.interceptor';
 
 @NgModule({
   declarations: [AppComponent],
@@ -20,7 +22,8 @@ import { ErrorInterceptor } from './core/interceptors/error.interceptor';
     HttpClientModule,
     BrowserAnimationsModule,
     CoreModule,
-    SharedModule,
+    HomeModule,
+    NgxSpinnerModule,
   ],
   providers: [
     ProductResolverService,
@@ -29,6 +32,11 @@ import { ErrorInterceptor } from './core/interceptors/error.interceptor';
       useClass: ErrorInterceptor,
       multi: true,
     },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LoadingInterceptor,
+      multi: true,
+    }
   ],
   bootstrap: [AppComponent],
 })
