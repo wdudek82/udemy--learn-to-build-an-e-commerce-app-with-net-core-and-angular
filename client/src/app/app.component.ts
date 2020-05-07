@@ -9,6 +9,7 @@ import {
   OnInit,
   SimpleChanges,
 } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -25,7 +26,7 @@ export class AppComponent
     AfterViewInit,
     AfterViewChecked,
     OnDestroy {
-  constructor() {}
+  constructor(private router: Router) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     console.log('ngOnChanges');
@@ -33,6 +34,13 @@ export class AppComponent
 
   ngOnInit(): void {
     console.log('ngOnInit');
+
+    this.router.events.subscribe((evt) => {
+      if (!(evt instanceof NavigationEnd)) {
+        return;
+      }
+      window.scroll(0, 0);
+    });
   }
 
   // ngDoCheck(): void {

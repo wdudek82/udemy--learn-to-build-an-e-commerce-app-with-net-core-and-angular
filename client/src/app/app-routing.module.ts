@@ -6,15 +6,22 @@ import { NotFoundComponent } from './core/not-found/not-found.component';
 import { ServerErrorComponent } from './core/server-error/server-error.component';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },
-  { path: 'test-errors', component: TestErrorComponent },
-  { path: 'server-error', component: ServerErrorComponent },
-  { path: 'not-found', component: NotFoundComponent },
+  { path: '', component: HomeComponent, data: { breadcrumb: 'Home' } },
+  {
+    path: 'test-errors',
+    component: TestErrorComponent,
+    data: { breadcrumb: 'Test Errors' },
+  },
+  { path: 'server-error', component: ServerErrorComponent, data: { breadcrumb: 'Server Error' }, },
+  { path: 'not-found', component: NotFoundComponent, data: { breadcrumb: '404 Page Not Found' }, },
   {
     path: 'shop',
     loadChildren: () => import('./shop/shop.module').then((m) => m.ShopModule),
+    data: {
+      breadcrumb: 'Shop',
+    },
   },
-  { path: '**', pathMatch: 'full', redirectTo: '' },
+  { path: '**', pathMatch: 'full', redirectTo: 'not-found' },
 ];
 
 @NgModule({

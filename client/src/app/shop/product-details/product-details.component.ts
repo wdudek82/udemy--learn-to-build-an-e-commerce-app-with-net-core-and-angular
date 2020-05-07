@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SubSink } from 'subsink';
 import { IProduct } from '../../shared/models/product';
+import { BreadcrumbService } from 'xng-breadcrumb';
 
 @Component({
   selector: 'app-product-details',
@@ -13,11 +14,15 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
   product: IProduct;
   quantity = 0;
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(
+    private route: ActivatedRoute,
+    private breadcrumbService: BreadcrumbService,
+  ) {}
 
   ngOnInit(): void {
     this.route.data.subscribe((data) => {
       this.product = data.product;
+      this.breadcrumbService.set('@productDetails', this.product.name);
     });
   }
 
