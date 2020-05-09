@@ -10,6 +10,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
+import { BasketService } from './basket/basket.service';
 
 @Component({
   selector: 'app-root',
@@ -26,7 +27,7 @@ export class AppComponent
     AfterViewInit,
     AfterViewChecked,
     OnDestroy {
-  constructor(private router: Router) {}
+  constructor(private router: Router, private basketService: BasketService) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     console.log('ngOnChanges');
@@ -34,6 +35,17 @@ export class AppComponent
 
   ngOnInit(): void {
     console.log('ngOnInit');
+
+    // Initialize basket
+    const basketId = localStorage.getItem('basket_id');
+    if (basketId) {
+      this.basketService.getBasket(basketId).subscribe(
+        () => {
+          console.log('initialized basket');
+        },
+        (error) => console.log(error),
+      );
+    }
 
     this.router.events.subscribe((evt) => {
       if (!(evt instanceof NavigationEnd)) {

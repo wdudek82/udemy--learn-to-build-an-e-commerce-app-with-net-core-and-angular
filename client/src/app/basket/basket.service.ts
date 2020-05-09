@@ -16,18 +16,18 @@ export class BasketService {
 
   constructor(private http: HttpClient) {}
 
-  getBasket(id: string): Observable<IBasket> {
+  getBasket(id: string): Observable<void> {
     return this.http.get<IBasket>(this.baseUrl + 'basket?id=' + id).pipe(
       map((basket) => {
         this.basketSource.next(basket);
-        return basket;
+        console.log(this.getCurrentBasketValue());
       }),
     );
   }
 
   setBasket(basket: IBasket): void {
     this.http
-      .post<IBasket>(this.baseUrl + 'basket', { basket })
+      .post<IBasket>(this.baseUrl + 'basket', basket)
       .subscribe(
         (updBasket) => {
           this.basketSource.next(updBasket);
@@ -53,6 +53,7 @@ export class BasketService {
     const itemToAdd = this.mapProductItemToBasketItem(item, quantity);
     const basket = this.getCurrentBasketValue() ?? this.createBasket();
     basket.items = this.addOrUpdateItem(basket.items, itemToAdd, quantity);
+    this.setBasket(basket);
   }
 
   private createBasket() {
@@ -68,7 +69,7 @@ export class BasketService {
   ) {
     const index = items.findIndex((i) => i.id === itemToAdd.id);
 
-    if (index) {
+    if (index > -1) {
       items[index].quantity += quantity;
     } else {
       itemToAdd.quantity = quantity;
@@ -88,8 +89,8 @@ export class BasketService {
       price: item.price,
       pictureUrl: item.pictureUrl,
       quantity,
-      brand: item.productBrand,
-      type: item.productType,
+      productBrand: item.productBrand,
+      productType: item.productType,
     };
   }
 }
