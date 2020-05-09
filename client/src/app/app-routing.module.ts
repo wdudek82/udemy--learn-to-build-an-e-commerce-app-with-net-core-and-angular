@@ -12,13 +12,29 @@ const routes: Routes = [
     component: TestErrorComponent,
     data: { breadcrumb: 'Test Errors' },
   },
-  { path: 'server-error', component: ServerErrorComponent, data: { breadcrumb: 'Server Error' }, },
-  { path: 'not-found', component: NotFoundComponent, data: { breadcrumb: '404 Page Not Found' }, },
+  {
+    path: 'server-error',
+    component: ServerErrorComponent,
+    data: { breadcrumb: 'Server Error' },
+  },
+  {
+    path: 'not-found',
+    component: NotFoundComponent,
+    data: { breadcrumb: '404 Page Not Found' },
+  },
   {
     path: 'shop',
     loadChildren: () => import('./shop/shop.module').then((m) => m.ShopModule),
     data: {
       breadcrumb: 'Shop',
+    },
+  },
+  {
+    path: 'basket',
+    loadChildren: () =>
+      import('./basket/basket.module').then((m) => m.BasketModule),
+    data: {
+      breadcrumb: 'Basket',
     },
   },
   { path: '**', pathMatch: 'full', redirectTo: 'not-found' },
