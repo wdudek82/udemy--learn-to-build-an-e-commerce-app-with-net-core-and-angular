@@ -113,6 +113,17 @@ export class BasketService {
     return items;
   }
 
+  removeItemFromBasket(item: IBasketItem): void {
+    const basket = this.basketSource.value;
+    basket.items = basket.items.filter((i) => i.id !== item.id);
+
+    if (!basket.items.length) {
+      this.deleteBasket(basket);
+    } else {
+      this.setBasket(basket);
+    }
+  }
+
   private mapProductItemToBasketItem(
     item: IProduct,
     quantity: number,
@@ -140,14 +151,4 @@ export class BasketService {
     this.basketTotalSource.next({ shipping, total, subtotal });
   }
 
-  private removeItemFromBasket(item: IBasketItem): void {
-    const basket = this.basketSource.value;
-    basket.items.filter((i) => i.id !== item.id);
-
-    if (!basket.items.length) {
-      this.deleteBasket(basket);
-    } else {
-      this.setBasket(basket);
-    }
-  }
 }

@@ -12,6 +12,7 @@ import { ErrorInterceptor } from './core/interceptors/error.interceptor';
 import { HomeModule } from './home/home.module';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { LoadingInterceptor } from './core/interceptors/loading.interceptor';
+import { CheckoutModule } from './checkout/checkout.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -23,6 +24,7 @@ import { LoadingInterceptor } from './core/interceptors/loading.interceptor';
     BrowserAnimationsModule,
     CoreModule,
     HomeModule,
+    CheckoutModule,
     NgxSpinnerModule,
   ],
   providers: [

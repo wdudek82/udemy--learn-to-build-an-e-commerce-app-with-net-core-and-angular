@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BasketService } from './basket.service';
 import { Observable } from 'rxjs';
-import { IBasket } from '../shared/models/basket';
+import { IBasket, IBasketItem } from '../shared/models/basket';
 
 @Component({
   selector: 'app-basket',
@@ -17,15 +17,19 @@ export class BasketComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  removeItem(id: number) {
-    console.log('remove item id:', id);
+  removeBasketItem(item: IBasketItem) {
+    this.basketService.removeItemFromBasket(item);
   }
 
-  decrement() {
-
+  decrement(item: IBasketItem) {
+    if (item.quantity > 1) {
+      this.basketService.decrementItemQuantity(item);
+    } else {
+      this.removeBasketItem(item);
+    }
   }
 
-  increment() {
-
+  increment(item: IBasketItem) {
+    this.basketService.incrementItemQuantity(item);
   }
 }

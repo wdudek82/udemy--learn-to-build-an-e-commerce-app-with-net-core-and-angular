@@ -57,20 +57,20 @@
                         <i
                           class="fa fa-minus-circle text-warning control mr-2"
                           style="cursor: pointer; font-size: 2em;"
-                          (click)="item.quantity = item.quantity - 1"
+                          (click)="decrement(item)"
                         ></i>
                         <span class="font-weight-bold quantity">{{ item.quantity }}</span>
                         <i
                           class="fa fa-plus-circle text-warning control mx-2"
                           style="cursor: pointer; font-size: 2em;"
-                          (click)="item.quantity = item.quantity + 1"
+                          (click)="increment(item)"
                         ></i>
                       </div>
                     <td class="align-middle">
                       <strong>{{ item.price * item.quantity | currency }}</strong>
                     </td>
                     <td class="align-middle text-center">
-                      <a class="text-danger" (click)="removeItem(item.id)">
+                      <a class="text-danger" (click)="removeBasketItem(item)">
                         <i
                           class="fa fa-trash"
                           style="font-size: 2em;"
