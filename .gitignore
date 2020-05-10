@@ -43,3 +43,5 @@ msbuild.wrn
 
 # production app settings
 appsettings.json
+
+client/
