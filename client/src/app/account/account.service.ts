@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { IUser } from '../shared/models/user';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
@@ -16,13 +16,27 @@ export class AccountService {
 
   constructor(private http: HttpClient, private router: Router) {}
 
+  getCurrentUserValue(): IUser {
+    return this.currentUserSource.value;
+  }
+
+  loadCurrentUser(token: string): Observable<IUser> {
+    let headers = new HttpHeaders();
+    headers = headers.set('Authorization', `Bearer ${token}`);
+
+    return this.http
+      .get<IUser>(this.baseUrl + 'account', { headers })
+      .pipe(
+        tap((user) => {
+          this.setCurrentUserAndToken(user);
+        }),
+      );
+  }
+
   login(values: any): Observable<IUser> {
     return this.http.post<IUser>(this.baseUrl + 'account/login', values).pipe(
       tap((user: IUser) => {
-        if (user) {
-          localStorage.setItem('token', user.token);
-          this.currentUserSource.next(user);
-        }
+        this.setCurrentUserAndToken(user);
       }),
     );
   }
@@ -32,10 +46,7 @@ export class AccountService {
       .post<IUser>(this.baseUrl + 'account/register', values)
       .pipe(
         tap((user: IUser) => {
-          if (user) {
-            localStorage.setItem('token', user.token);
-            this.currentUserSource.next(user);
-          }
+          this.setCurrentUserAndToken(user);
         }),
       );
   }
@@ -55,5 +66,12 @@ export class AccountService {
     return this.http.get<boolean>(this.baseUrl + 'account/emailexists', {
       params,
     });
+  }
+
+  private setCurrentUserAndToken(user: IUser): void {
+    if (user) {
+      localStorage.setItem('token', user.token);
+      this.currentUserSource.next(user);
+    }
   }
 }

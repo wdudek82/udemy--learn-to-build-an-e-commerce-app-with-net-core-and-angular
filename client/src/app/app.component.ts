@@ -11,32 +11,36 @@ import {
 } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { BasketService } from './basket/basket.service';
+import { AccountService } from './account/account.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-// DoCheck,
-export class AppComponent
-  implements
-    OnChanges,
-    OnInit,
-    AfterContentInit,
-    AfterContentChecked,
-    AfterViewInit,
-    AfterViewChecked,
-    OnDestroy {
-  constructor(private router: Router, private basketService: BasketService) {}
-
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log('ngOnChanges');
-  }
+export class AppComponent implements OnInit {
+  constructor(
+    private router: Router,
+    private basketService: BasketService,
+    private accountService: AccountService,
+  ) {}
 
   ngOnInit(): void {
-    console.log('ngOnInit');
+    this.loadBasket();
+    this.loadCurrentUser();
+    this.onNavigationEndScrollToTop();
+  }
 
-    // Initialize basket
+  private onNavigationEndScrollToTop() {
+    this.router.events.subscribe((evt) => {
+      if (!(evt instanceof NavigationEnd)) {
+        return;
+      }
+      window.scroll(0, 0);
+    });
+  }
+
+  private loadBasket(): void {
     const basketId = localStorage.getItem('basket_id');
     if (basketId) {
       this.basketService.getBasket(basketId).subscribe(
@@ -46,36 +50,19 @@ export class AppComponent
         (error) => console.log(error),
       );
     }
-
-    this.router.events.subscribe((evt) => {
-      if (!(evt instanceof NavigationEnd)) {
-        return;
-      }
-      window.scroll(0, 0);
-    });
   }
 
-  // ngDoCheck(): void {
-  //   console.log('ngDoCheck');
-  // }
-
-  ngAfterContentInit(): void {
-    console.log('ngAfterContentInit');
-  }
-
-  ngAfterContentChecked(): void {
-    console.log('ngAfterContentChecked');
-  }
-
-  ngAfterViewInit(): void {
-    console.log('ngAfterViewInit');
-  }
-
-  ngAfterViewChecked(): void {
-    console.log('ngAfterViewChecked');
-  }
-
-  ngOnDestroy(): void {
-    console.log('ngOnDestroy');
+  private loadCurrentUser(): void {
+    const token = localStorage.getItem('token');
+    if (token) {
+      this.accountService.loadCurrentUser(token).subscribe(
+        (user) => {
+          console.log('user loaded');
+        },
+        (error) => {
+          console.log(error);
+        },
+      );
+    }
   }
 }
