@@ -3,7 +3,7 @@ import { environment } from '../../environments/environment';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { IUser } from '../shared/models/user';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -42,6 +42,7 @@ export class AccountService {
   }
 
   register(values: any): Observable<IUser> {
+    console.log('== values:', values);
     return this.http
       .post<IUser>(this.baseUrl + 'account/register', values)
       .pipe(

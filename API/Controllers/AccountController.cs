@@ -25,10 +25,7 @@ namespace API.Controllers
         public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager,
             ITokenService tokenService, IMapper mapper)
         {
-            _userManager = userManager;
-            _signInManager = signInManager;
-            _tokenService = tokenService;
-            _mapper = mapper;
+            (_userManager, _signInManager, _tokenService, _mapper) = (userManager, signInManager, tokenService, mapper);
         }
 
         [Authorize]
