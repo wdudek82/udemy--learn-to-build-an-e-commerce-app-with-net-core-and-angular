@@ -12,6 +12,8 @@ import {
 import { NavigationEnd, Router } from '@angular/router';
 import { BasketService } from './basket/basket.service';
 import { AccountService } from './account/account.service';
+import { Observable } from 'rxjs';
+import { IUser } from './shared/models/user';
 
 @Component({
   selector: 'app-root',
@@ -54,15 +56,13 @@ export class AppComponent implements OnInit {
 
   private loadCurrentUser(): void {
     const token = localStorage.getItem('token');
-    if (token) {
-      this.accountService.loadCurrentUser(token).subscribe(
-        (user) => {
-          console.log('user loaded');
-        },
-        (error) => {
-          console.log(error);
-        },
-      );
-    }
+    this.accountService.loadCurrentUser(token).subscribe(
+      (user) => {
+        console.log('user loaded');
+      },
+      (error) => {
+        console.log(error);
+      },
+    );
   }
 }
