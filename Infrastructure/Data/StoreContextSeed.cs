@@ -64,6 +64,8 @@ namespace Infrastructure.Data
                     {
                         context.DeliveryMethods.Add(method);
                     }
+                    
+                    await context.SaveChangesAsync();
                 }
             }
             catch (Exception e)
