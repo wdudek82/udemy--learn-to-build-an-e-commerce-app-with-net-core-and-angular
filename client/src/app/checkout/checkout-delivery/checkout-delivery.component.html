@@ -1,0 +1,20 @@
+<div class="mt4" [formGroup]="checkoutForm">
+  <div class="row" formGroupName="deliveryForm">
+    <div
+      *ngFor="let deliveryMethod of deliveryMethods"
+      class="form-group col-6"
+    >
+      <input
+        [id]="deliveryMethod.id"
+        [value]="deliveryMethod.id"
+        formControlName="delivery"
+        type="radio"
+        class="custom-control-input"
+      />
+      <label [for]="deliveryMethod.id" class="custom-control-label"></label>
+      <strong>{{ deliveryMethod.shortName }} - {{ deliveryMethod.price | currency }}</strong>
+      <br>
+      <span class="label-description">{{ deliveryMethod.description }}</span>
+    </div>
+  </div>
+</div>

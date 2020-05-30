@@ -13,6 +13,7 @@ import { HomeModule } from './home/home.module';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { LoadingInterceptor } from './core/interceptors/loading.interceptor';
 import { CheckoutModule } from './checkout/checkout.module';
+import { JwtInterceptor } from './core/interceptors/jwt.interceptor';
 
 @NgModule({
   declarations: [AppComponent],
@@ -38,7 +39,12 @@ import { CheckoutModule } from './checkout/checkout.module';
       provide: HTTP_INTERCEPTORS,
       useClass: LoadingInterceptor,
       multi: true,
-    }
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: JwtInterceptor,
+      multi: true,
+    },
   ],
   bootstrap: [AppComponent],
 })
