@@ -8,8 +8,7 @@ import { IBasket, IBasketItem } from '../../models/basket';
 })
 export class BasketSummaryComponent implements OnInit {
   @Input() basket: IBasket;
-  @Input() allowRemoving = true;
-  @Input() allowChangeQuantity = true;
+  @Input() isCheckout = false;
 
   @Output() decrement = new EventEmitter<IBasketItem>();
   @Output() increment = new EventEmitter<IBasketItem>();

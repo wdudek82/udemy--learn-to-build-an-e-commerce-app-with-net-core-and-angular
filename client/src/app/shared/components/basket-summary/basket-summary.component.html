@@ -2,19 +2,19 @@
   <table class="table">
     <thead>
     <tr>
-      <th scope="col" class="border-0 bg-light">
+      <th scope="col" class="border-0" [class.bg-light]="!isCheckout">
         <div class="p-2 px-3 text-uppercase">Product</div>
       </th>
-      <th scope="col" class="border-0 bg-light">
+      <th scope="col" class="border-0" [class.bg-light]="!isCheckout">
         <div class="py-2 text-uppercase">Price</div>
       </th>
-      <th scope="col" class="border-0 bg-light">
+      <th scope="col" class="border-0" [class.bg-light]="!isCheckout">
         <div class="py-2 text-uppercase">Quantity</div>
       </th>
-      <th scope="col" class="border-0 bg-light">
+      <th scope="col" class="border-0" [class.bg-light]="!isCheckout">
         <div class="py-2 text-uppercase">Total</div>
       </th>
-      <th scope="col" class="border-0 bg-light" *ngIf="allowRemoving">
+      <th *ngIf="!isCheckout" scope="col" class="border-0" [class.bg-light]="!isCheckout">
         <div class="py-2 text-uppercase">Remove</div>
       </th>
     </tr>
@@ -47,16 +47,16 @@
         <strong>{{ item.price | currency }}</strong>
       </td>
       <td class="align-middle text-center">
-        <div class="d-flex align-items-center">
+        <div class="d-flex align-items-center" [class.justify-content-center]="isCheckout">
           <i
-            *ngIf="allowChangeQuantity"
+            *ngIf="!isCheckout"
             class="fa fa-minus-circle text-warning control mr-2"
             style="cursor: pointer; font-size: 2em;"
             (click)="onDecrement(item)"
           ></i>
           <span class="font-weight-bold quantity">{{ item.quantity }}</span>
           <i
-            *ngIf="allowChangeQuantity"
+            *ngIf="!isCheckout"
             class="fa fa-plus-circle text-warning control mx-2"
             style="cursor: pointer; font-size: 2em;"
             (click)="onIncrement(item)"
@@ -65,7 +65,7 @@
       <td class="align-middle">
         <strong>{{ item.price * item.quantity | currency }}</strong>
       </td>
-      <td class="align-middle text-center" *ngIf="allowRemoving">
+      <td *ngIf="!isCheckout" class="align-middle text-center">
         <a class="text-danger" (click)="onRemoveBasketItem(item)">
           <i
             class="fa fa-trash"
