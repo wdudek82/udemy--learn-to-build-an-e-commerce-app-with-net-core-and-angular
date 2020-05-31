@@ -6,7 +6,7 @@
         [class.active]="selectedIndex === i"
         (click)="onClick(i)"
       >
-        {{ step.label }}
+        {{ step.label }}:{{step.completed}}
       </button>
     </li>
   </ul>

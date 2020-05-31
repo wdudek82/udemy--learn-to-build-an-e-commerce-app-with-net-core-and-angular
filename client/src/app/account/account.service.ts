@@ -5,6 +5,7 @@ import { IUser } from '../shared/models/user';
 import { BehaviorSubject, Observable, of, ReplaySubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { IAddress } from '../shared/models/address';
 
 @Injectable({
   providedIn: 'root',
@@ -68,6 +69,15 @@ export class AccountService {
     return this.http.get<boolean>(this.baseUrl + 'account/emailexists', {
       params,
     });
+  }
+
+  getUserAddress() {
+    console.log('get address');
+    return this.http.get<IAddress>(this.baseUrl + 'account/address');
+  }
+
+  updateUserAddress(address: IAddress) {
+    return this.http.put<IAddress>(this.baseUrl + 'account/address', address);
   }
 
   private setCurrentUserAndToken(user: IUser): void {
