@@ -5,6 +5,7 @@ import { CheckoutService } from '../checkout.service';
 import { ToastrService } from 'ngx-toastr';
 import { IBasket } from '../../shared/models/basket';
 import { IOrder, IOrderToCreate } from '../../shared/models/order';
+import { NavigationExtras, Router } from '@angular/router';
 
 @Component({
   selector: 'app-checkout-payment',
@@ -18,6 +19,7 @@ export class CheckoutPaymentComponent implements OnInit {
     private basketService: BasketService,
     private checkoutService: CheckoutService,
     private toastr: ToastrService,
+    private router: Router,
   ) {}
 
   ngOnInit(): void {}
@@ -30,7 +32,11 @@ export class CheckoutPaymentComponent implements OnInit {
       (order: IOrder) => {
         this.toastr.success('Order created successfully.');
         this.basketService.deleteLocalBasket();
+
         console.log('=== order:', order);
+
+        const navigationExtras: NavigationExtras = { state: order };
+        this.router.navigateByUrl('/checkout/success', navigationExtras);
       },
       (error) => {
         this.toastr.error(error.message);
@@ -40,11 +46,12 @@ export class CheckoutPaymentComponent implements OnInit {
   }
 
   private getOrderToCreate(basket: IBasket): IOrderToCreate {
+    console.log(this.checkoutForm.get('deliveryForm'));
     return {
       basketId: basket.id,
       deliveryMethodId: +this.checkoutForm
         .get('deliveryForm')
-        .get('deliveryMethod').value,
+        .get('delivery').value,
       shipToAddress: this.checkoutForm.get('addressForm').value,
     };
   }

@@ -43,21 +43,21 @@ export class ShopService {
     params = params.set('pageSize', pageSize.toString());
 
     return this.http
-      .get<IPagination>(this.baseUrl + '/products', {
+      .get<IPagination>(this.baseUrl + 'products', {
         params,
       })
       .pipe(tap((data) => console.log(data)));
   }
 
   getProduct(id: number): Observable<IProduct> {
-    return this.http.get<IProduct>(this.baseUrl + '/products/' + id);
+    return this.http.get<IProduct>(this.baseUrl + 'products/' + id);
   }
 
   getProductBrands() {
-    return this.http.get<IProductBrand[]>(this.baseUrl + '/products/brands');
+    return this.http.get<IProductBrand[]>(this.baseUrl + 'products/brands');
   }
 
   getProductTypes() {
-    return this.http.get<IProductType[]>(this.baseUrl + '/products/types');
+    return this.http.get<IProductType[]>(this.baseUrl + 'products/types');
   }
 }
